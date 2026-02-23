@@ -18,9 +18,14 @@ const API_URL = envApiUrl
     ? DEFAULT_LOCAL_API_URL
     : DEFAULT_PROD_API_URL;
 
+const normalizeBaseUrl = (url) => {
+  if (typeof url !== 'string' || !url.trim()) return url;
+  const clean = url.replace(/\/+$/, '');
+  return clean.endsWith('/api') ? clean : `${clean}/api`;
+};
 
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: normalizeBaseUrl(API_URL),
     headers: {
         'Content-Type': 'application/json',
     },
